@@ -24,7 +24,7 @@ const StyledPlant = styled.div`
   position: absolute;
 `;
 
-export default ({ type, stage, position, onClick, pointsToAdd }) => {
+export default ({ type, stage, position, onClick }) => {
   const style = {
     top: `${position[0]}%`,
     left: `${position[1]}%`,
@@ -34,8 +34,5 @@ export default ({ type, stage, position, onClick, pointsToAdd }) => {
     style.background = "url(/images/plants-sprite.png)";
     style.backgroundPosition = `-${stagePosition[stage]}px -${typePosition[type]}px`;
   }
-  return <StyledPlant onClick={onClick} style={style} >
-    {pointsToAdd && <div>+1</div>}
-
-  </StyledPlant>;
+  return <StyledPlant onClick={onClick} style={style} />;
 };
