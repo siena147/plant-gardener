@@ -22,6 +22,11 @@ const StyledPlant = styled.div`
   width: 120px;
   height: 120px;
   position: absolute;
+  cursor: pointer;
+  :hover{
+    border-radius: 50%;
+  box-shadow: 0 0 11px rgba(33,33,33,.2); 
+  }
 `;
 
 export default ({ type, stage, position, onClick }) => {
