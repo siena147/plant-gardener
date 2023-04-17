@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import colors from "../colors";
+import LeaderBoard from "./LeaderBoard";
 
 const StyledGameOver = styled.div`
   width: 100vw;
@@ -18,6 +19,7 @@ export default () => {
   return (
     <StyledGameOver>
       <h1>Game Over !</h1>
+      <LeaderBoard></LeaderBoard>
     </StyledGameOver>
   );
 };

@@ -6,6 +6,7 @@ import timings from "./lib/Timings";
 import Overlay from "./components/Overlay";
 import Bg from "./components/Bg";
 import Score from "./components/Score";
+import GameOver from "./components/GameOver";
 import { cloneDeep } from "lodash";
 import colors from "./colors";
 
@@ -16,6 +17,10 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     background:${colors.white};
     font-family: Open-Sans, Helvetica, Sans-Serif;
+    h2{
+      text-align: center;
+      font-size: 15px;
+    }
   }
 `;
 
@@ -23,9 +28,11 @@ const StyledApp = styled.div``;
 
 export default () => {
   const [name, setName] = useState("");
+  const [timeLeft, setTimeLeft] = useState(5);
   const [error, setError] = useState(false);
   const [started, setStarted] = useState(false);
   const [score, setScore] = useState(0);
+  const [gameOver, setGameOver] = useState(false);
 
   const [plantsState, setPlantsState] = useState(
     Object.keys(timings).reduce((a, v) => {
@@ -63,6 +70,26 @@ export default () => {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    const timeout = setTimeout(async () => {
+      if(started && !gameOver) {
+        if(timeLeft > 0 ) {
+          setTimeLeft(timeLeft-1)
+        } else{
+          const obToSend = {}
+          obToSend[name] = score;
+
+          await fetch(`${import.meta.env.VITE_FIREBASE_BASE_URL}/lederboard.json`, {
+            method: "PATCH", 
+            body: JSON.stringify(obToSend)
+          })
+          setGameOver(true);
+        }
+      }
+    }, 1000);
+    return () => clearTimeout(timeout);
+  }, [started, timeLeft, gameOver]);
+
   const plantClick = (type, stage) => async () => {
     if (stage == 3) {
       plantsState[type].currentStage = 0;
@@ -93,7 +120,11 @@ export default () => {
           onClick={plantClick(type, stage.currentStage)}
         />
       ))}
+
+      {gameOver && <GameOver/>}
+
       <Score score={score} />
+      <h2>Time Left: {timeLeft}</h2>
       <Bg />
     </StyledApp>
   );
