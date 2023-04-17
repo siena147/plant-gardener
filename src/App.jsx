@@ -80,7 +80,7 @@ export default () => {
           obToSend[name] = score;
 
           await fetch(`${import.meta.env.VITE_FIREBASE_BASE_URL}/lederboard.json`, {
-            method: "PATC", 
+            method: "PATCH", 
             body: JSON.stringify(obToSend)
           })
           setGameOver(true);

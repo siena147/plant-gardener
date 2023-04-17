@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import PlantTypes from "../lib/PlantTypes";
 import PlantStages from "../lib/PlantStages";
+import plantsSprite from "../images/plants-sprite.png";
 
 let typePosition = {};
 typePosition[PlantTypes.weat] = 70;
@@ -36,7 +37,7 @@ export default ({ type, stage, position, onClick }) => {
   };
   if (stage == PlantStages.empty) style.background = "transparent";
   else {
-    style.background = "url(/images/plants-sprite.png)";
+    style.background = `url(${plantsSprite})`;
     style.backgroundPosition = `-${stagePosition[stage]}px -${typePosition[type]}px`;
   }
   return <StyledPlant onClick={onClick} style={style} />;
